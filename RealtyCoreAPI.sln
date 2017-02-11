@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 15.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{059A513E-05A8-4B2F-BA76-DACD4C20C0C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealtyCoreAPI", "src\RealtyCoreAPI\RealtyCoreAPI.csproj", "{D402E55B-1CD2-458D-9876-30BD9019BC05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealtyLibrary", "RealtyLibrary\RealtyLibrary.csproj", "{2FEF67EE-9EB8-4B95-A0A9-1985DAAF57DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D402E55B-1CD2-458D-9876-30BD9019BC05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D402E55B-1CD2-458D-9876-30BD9019BC05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D402E55B-1CD2-458D-9876-30BD9019BC05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D402E55B-1CD2-458D-9876-30BD9019BC05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FEF67EE-9EB8-4B95-A0A9-1985DAAF57DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FEF67EE-9EB8-4B95-A0A9-1985DAAF57DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FEF67EE-9EB8-4B95-A0A9-1985DAAF57DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FEF67EE-9EB8-4B95-A0A9-1985DAAF57DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D402E55B-1CD2-458D-9876-30BD9019BC05} = {059A513E-05A8-4B2F-BA76-DACD4C20C0C1}
+	EndGlobalSection
+EndGlobal
