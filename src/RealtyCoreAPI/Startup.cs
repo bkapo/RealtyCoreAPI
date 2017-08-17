@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using RealtyCoreAPI.Repository;
 using RealtyLibrary.Model;
 
@@ -18,6 +18,14 @@ namespace RealtyCoreAPI
 {
 	public class Startup
 	{
+
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
+
+		public IConfiguration Configuration { get; }
+
 		// This method gets called by the runtime. Use this method to add services to the container.
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
@@ -36,7 +44,7 @@ namespace RealtyCoreAPI
 			 });
 
 			//InMemeory DB
-			services.AddDbContext<RealEstateRepository>(opt => opt.UseInMemoryDatabase());
+            services.AddDbContext<RealEstateRepository>(opt => opt.UseInMemoryDatabase("RealtyDB"));
 
 			services.AddMvc().AddJsonOptions(options =>
 			{
@@ -61,8 +69,9 @@ namespace RealtyCoreAPI
 				});
 				options.DescribeAllEnumsAsStrings();
 
-				//Determine base path for the application
-				var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                //Determine base path for the application
+
+                var basePath = System.AppContext.BaseDirectory;
 
 				//Set the comments path for the swagger json an ui
 				// options.IncludeXmlComments(basePath + "\\RealEstate.CoreWebAPI.xml");
