@@ -114,15 +114,15 @@ namespace RealtyLibrary.Model
         public bool? UploadMapToRealEstatePortals { get; set; }
 
         //Navigation Properties
-        public int ResponsibleId { get; set; }
+        public int? ResponsibleId { get; set; }
         [ForeignKey("ResponsibleId")]
         public InvolvedParty Responsible { get; set; }
 
-        public int OwnerId { get; set; }
+        public int? OwnerId { get; set; }
         [ForeignKey("OwnerId")]
         public InvolvedParty Owner { get; set; }
 
-        public int ProposedId { get; set; }
+        public int? ProposedId { get; set; }
         [ForeignKey("ProposedId")]
         public InvolvedParty Proposed { get; set; }
 

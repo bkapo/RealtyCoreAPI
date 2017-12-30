@@ -46,11 +46,12 @@ namespace RealtyCoreAPI
 			//InMemeory DB
             services.AddDbContext<RealEstateRepository>(opt => opt.UseInMemoryDatabase("RealtyDB"));
 
-			services.AddMvc().AddJsonOptions(options =>
-			{
-				options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
-				options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-			});
+            services.AddMvc().AddJsonOptions(options =>
+            {
+            	options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+            	options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
 
 			services.Configure<MvcOptions>(options =>
 			{
@@ -108,170 +109,175 @@ namespace RealtyCoreAPI
 
 		private static void AddTestData(RealEstateRepository context)
 		{
-			//Customer
-			var _inv1 = new InvolvedParty();
-			_inv1.InvolvedPartyId = 1;
-			_inv1.FirstName = "Bill";
-			_inv1.LastName = "Customer";
-			_inv1.InvolvedPartyType = InvolvedPartyType.Customer;
-			_inv1.AFM = "1234567890";
-			_inv1.FatherName = "George";
-			_inv1.Email = "billkapo@gmail.com";
-			_inv1.Mobile = "6997791425";
+            //Customer
+            var _inv1 = new InvolvedParty
+            {
+                InvolvedPartyId = 1,
+                FirstName = "Bill",
+                LastName = "Customer",
+                InvolvedPartyType = InvolvedPartyType.Customer,
+                AFM = "1234567890",
+                FatherName = "George",
+                Email = "billkapo@gmail.com",
+                Mobile = "6997791425"
+            };
+            context.InvolvedParties.Add(_inv1);
+            context.SaveChanges();
 
-			context.InvolvedParties.Add(_inv1);
+            //Agent
+            InvolvedParty _inv2 = new InvolvedParty
+            {
+                InvolvedPartyId = 2,
+                FirstName = "Bill",
+                LastName = "Agent",
+                InvolvedPartyType = InvolvedPartyType.Agent,
+                AFM = "5555555555",
+                FatherName = "George",
+                Email = "kapo@gmail.com",
+                Mobile = "699999999"
+            };
+            context.InvolvedParties.Add(_inv2);
+            context.SaveChanges();
+
+            //Owner
+            InvolvedParty _inv3 = new InvolvedParty
+            {
+                InvolvedPartyId = 3,
+                FirstName = "Mark",
+                LastName = "Smith-Owner",
+                InvolvedPartyType = InvolvedPartyType.Owner,
+                AFM = "88888888",
+                FatherName = "Klok",
+                Email = "Klok@gmail.com",
+                Mobile = "455555555"
+            };
+            context.InvolvedParties.Add(_inv3);
+            context.SaveChanges();
+
+            //Agent
+            context.InvolvedParties.Add(new InvolvedParty
+            {
+                InvolvedPartyId = 4,
+                FirstName = "Nick",
+                LastName = "Johnson-agent",
+                InvolvedPartyType = InvolvedPartyType.Agent
+            });
+
+            //Owner
+            InvolvedParty _inv5 = new InvolvedParty
+            {
+                InvolvedPartyId = 5,
+                FirstName = "George",
+                LastName = "Kapo-owner",
+                InvolvedPartyType = InvolvedPartyType.Owner,
+                AFM = "234234234",
+                FatherName = "Bill",
+                Email = "george@gmail.com",
+                Mobile = "111111111"
+            };
+            context.InvolvedParties.Add(_inv5);
+            context.SaveChanges();
+
+            //Demand of Customerid = 1 - Agentid = 2
+            Demand _dm = new Demand
+            {
+                DemandId = 1,
+                UserId = "Bill",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                Comments = "New demand for mr....",
+                Active = true,
+                PropertyCategory = PropertyCategory.Katoikia,
+                PropertyType = PropertyType.Diamerisma,
+                PriceFrom = 300,
+                PriceTo = 700,
+                SqFeetInteriorFrom = 90,
+                SqFeetInteriorTo = 130,
+                Customer = _inv1,
+                CustomerId = _inv1.InvolvedPartyId,
+                Purpose = Purpose.Rental,
+                Responsible = _inv2,
+                ResponsibleId = _inv2.InvolvedPartyId
+            };
+            context.Demands.Add(_dm);
 			context.SaveChanges();
 
-			//Agent
-			InvolvedParty _inv2 = new InvolvedParty();
-			_inv2.InvolvedPartyId = 2;
-			_inv2.FirstName = "Bill";
-			_inv2.LastName = "Agent";
-			_inv2.InvolvedPartyType = InvolvedPartyType.Agent;
-			_inv2.AFM = "5555555555";
-			_inv2.FatherName = "George";
-			_inv2.Email = "kapo@gmail.com";
-			_inv2.Mobile = "699999999";
+            context.RealEstateProperties.Add(new RealEstateProperty
+            {
+                RealEstatePropertyId = 555,
+                Purpose = Purpose.RentalOrSale,
+                PropertyCategory = PropertyCategory.Katoikia,
+                PropertyType = PropertyType.Diamerisma,
+                Title = "Διαμέρισμα Lux",
+                SiteCode = "E555",
+                SqFeetInterior = 120,
+                SqfFeetLand = 200,
+                Price = 550,
+                Year = 2010,
+                Renovated = false,
+                NewConstruction = true,
+                Rooms = 4,
+                NoOfKitchen = 2,
+                FullBedrooms = 3,
+                HalfBedrooms = 2,
+                AC = true,
+                Alarm = true,
+                AnimalFriendly = false,
+                Basement = true,
+                Attic = true,
+                Boiler = true,
+                ClosedParking = true,
+                Trees = true,
+                VideoDoorPhone = true,
+                SolarHeating = true,
+                IndoorPool = false,
+                OutdoorPool = true,
+                SafetyDepositBox = true,
+                ResponsibleId = _inv2.InvolvedPartyId,
+                Responsible = _inv2,
+                OwnerId = _inv3.InvolvedPartyId,
+                Owner = _inv3
+            });
 
-			context.InvolvedParties.Add(_inv2);
-			context.SaveChanges();
+            context.RealEstateProperties.Add(new RealEstateProperty
+            {
+                RealEstatePropertyId = 444,
+                Purpose = Purpose.Sale,
+                PropertyCategory = PropertyCategory.Katoikia,
+                PropertyType = PropertyType.Villa,
+                Title = "Villa Relax Lifestyle",
+                SiteCode = "E444",
+                SqFeetInterior = 220,
+                SqfFeetLand = 100,
+                Price = 250000,
+                Year = 2015,
+                Renovated = false,
+                NewConstruction = true,
+                Rooms = 5,
+                NoOfKitchen = 2,
+                FullBedrooms = 3,
+                HalfBedrooms = 2,
+                AC = true,
+                Alarm = true,
+                AnimalFriendly = false,
+                Basement = true,
+                Attic = true,
+                Boiler = true,
+                ClosedParking = true,
+                Trees = true,
+                VideoDoorPhone = true,
+                SolarHeating = true,
+                IndoorPool = false,
+                OutdoorPool = true,
+                SafetyDepositBox = true,
+                ResponsibleId = _inv2.InvolvedPartyId,
+                Responsible = _inv2,
+                OwnerId = _inv5.InvolvedPartyId,
+                Owner = _inv5
+            });
 
-			//Owner
-			InvolvedParty _inv3 = new InvolvedParty();
-			_inv3.InvolvedPartyId = 3;
-			_inv3.FirstName = "Mark";
-			_inv3.LastName = "Smith-Owner";
-			_inv3.InvolvedPartyType = InvolvedPartyType.Owner;
-			_inv3.AFM = "88888888";
-			_inv3.FatherName = "Klok";
-			_inv3.Email = "Klok@gmail.com";
-			_inv3.Mobile = "455555555";
-
-			context.InvolvedParties.Add(_inv3);
-			context.SaveChanges();
-
-			//Agent
-			context.InvolvedParties.Add(new InvolvedParty
-			{
-				InvolvedPartyId = 4,
-				FirstName = "Nick",
-				LastName = "Johnson-agent",
-				InvolvedPartyType = InvolvedPartyType.Agent
-			});
-
-			//Owner
-			InvolvedParty _inv5 = new InvolvedParty();
-			_inv5.InvolvedPartyId = 5;
-			_inv5.FirstName = "George";
-			_inv5.LastName = "Kapo-owner";
-			_inv5.InvolvedPartyType = InvolvedPartyType.Owner;
-			_inv5.AFM = "234234234";
-			_inv5.FatherName = "Bill";
-			_inv5.Email = "george@gmail.com";
-			_inv5.Mobile = "111111111";
-
-			context.InvolvedParties.Add(_inv5);
-			context.SaveChanges();
-
-			//Demand of Customerid = 1 - Agentid = 2
-			Demand _dm = new Demand();
-			_dm.DemandId = 1;
-			_dm.UserId = "Bill";
-			_dm.CreatedDate = DateTime.Now;
-			_dm.ModifiedDate = DateTime.Now;
-			_dm.Comments = "New demand for mr....";
-			_dm.Active = true;
-			_dm.PropertyCategory = PropertyCategory.Katoikia;
-			_dm.PropertyType = PropertyType.Diamerisma;
-			_dm.PriceFrom = 300;
-			_dm.PriceTo = 700;
-			_dm.SqFeetInteriorFrom = 90;
-			_dm.SqFeetInteriorTo = 130;
-			_dm.Customer = _inv1;
-			_dm.CustomerId = _inv1.InvolvedPartyId;
-			_dm.Purpose = Purpose.Rental;
-			_dm.Responsible = _inv2;
-			_dm.ResponsibleId = _inv2.InvolvedPartyId;
-
-			context.Demands.Add(_dm);
-			context.SaveChanges();
-
-			context.RealEstateProperties.Add(new RealEstateProperty
-			{
-				RealEstatePropertyId = 555,
-				Purpose = Purpose.RentalOrSale,
-				PropertyCategory = PropertyCategory.Katoikia,
-				PropertyType = PropertyType.Diamerisma,
-				Title = "Διαμέρισμα Lux",
-				SiteCode = "E555",
-				SqFeetInterior = 120,
-				SqfFeetLand = 200,
-				Price = 550,
-				Year = 2010,
-				Renovated = false,
-				NewConstruction = true,
-				Rooms = 4,
-				NoOfKitchen = 2,
-				FullBedrooms = 3,
-				HalfBedrooms = 2,
-				AC = true,
-				Alarm = true,
-				AnimalFriendly = false,
-				Basement = true,
-				Attic = true,
-				Boiler = true,
-				ClosedParking = true,
-				Trees = true,
-				VideoDoorPhone = true,
-				SolarHeating = true,
-				IndoorPool = false,
-				OutdoorPool = true,
-				SafetyDepositBox = true,
-				ResponsibleId = _inv2.InvolvedPartyId,
-				Responsible = _inv2,
-				OwnerId = _inv3.InvolvedPartyId,
-				Owner = _inv3
-			});
-
-			context.RealEstateProperties.Add(new RealEstateProperty
-			{
-				RealEstatePropertyId = 444,
-				Purpose = Purpose.Sale,
-				PropertyCategory = PropertyCategory.Katoikia,
-				PropertyType = PropertyType.Villa,
-				Title = "Villa Relax Lifestyle",
-				SiteCode = "E444",
-				SqFeetInterior = 220,
-				SqfFeetLand = 100,
-				Price = 250000,
-				Year = 2015,
-				Renovated = false,
-				NewConstruction = true,
-				Rooms = 5,
-				NoOfKitchen = 2,
-				FullBedrooms = 3,
-				HalfBedrooms = 2,
-				AC = true,
-				Alarm = true,
-				AnimalFriendly = false,
-				Basement = true,
-				Attic = true,
-				Boiler = true,
-				ClosedParking = true,
-				Trees = true,
-				VideoDoorPhone = true,
-				SolarHeating = true,
-				IndoorPool = false,
-				OutdoorPool = true,
-				SafetyDepositBox = true,
-				ResponsibleId = _inv2.InvolvedPartyId,
-				Responsible = _inv2,
-				OwnerId = _inv5.InvolvedPartyId,
-				Owner = _inv5
-			});
-
-			context.SaveChanges();
-		}
+            context.SaveChanges();
+        }
 
 	}
 }

@@ -69,9 +69,13 @@ namespace RealtyCoreAPI.Repository
 
         public IEnumerable<RealEstateProperty> RealEstatePropertyGetAll()
         {
-            return RealEstateProperties.Include(x => x.Responsible)
-                .Include(x=>x.Owner)
-                .Include(x=>x.Proposed);
+
+            var res = RealEstateProperties
+                .Include(x => x.Responsible)
+                .Include(x => x.Owner)
+                .Include(x => x.Proposed);
+
+            return res.ToList();
         }
 
         public IEnumerable<RealEstateProperty> RealEstatePropertyOfCustomer(int ownerid)
